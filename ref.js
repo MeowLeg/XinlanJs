@@ -193,3 +193,49 @@ var _at = function(arr, id) {
 	if (id < 0) id = arr.length+id;
 	return arr[id];
 }
+
+var _submitInfo = function(submit_func) {
+	var str = '<section class="tips_win pct100"> <div class="info_submit bg_white pct80 tc pt10 pb10 g6 f16 abs"> <header class="bbd pb10">信息提交</header> <div class="info_form"> <input id="tips_win_phone" type="tel" maxlength="11" placeholder="请输入您的手机号码" class="f14 pct100 bbc mt20 mb10 pb5"/> <input id="tips_win_name" type="text" placeholder="请输入您姓名" class="f14 pct100 bbc mt5 mb10 pb5"/> <span class="btn bg_red pct100 p0 pt10 pb10 mt10 submit" id="tips_win_submit_score">提交</span> <p class="mt5 tl g6 f12">活动将以您提交的信息为准,请正确填写！</p> </div> </div> </section>';
+	$(str).appendTo("body");
+	$(".tips_win_submit_score").click(function() {
+		var phone = $("tips_win_phone").val().replace(/\s/g, '');
+		var name = $("tips_win_name").val().replace(/\s/g, '');
+		if (phone == '' || name == '') return _toast.show("请填写完整信息");
+		submit_func(phone, name);
+		$(".tips_win").remove();
+	});
+}
+
+var _wxzs = function(kv) {
+	if (!("callback" in kv) || !("_callAjax" in kv)) return;
+	var cb = kv["callback"],
+			_ca = kv["_callAjax"];
+	
+	var os = _getDev();
+	if (os == 'iOS') {
+		$.hg_h5app({
+			"needUserInfo": function(d)	{
+				cb(d, "userid", _ca);
+			}
+		});
+	} else {
+		$.hg_h5app({
+			"needSystemInfo": function(d)	{
+				cb(d, "device_token", _ca);
+			}
+		});
+	}
+}
+
+var _weixin = function(kv) {
+	if (!("auth" in kv) || !("_callAjax" in kv)) return;
+	var weixin = _getPar("weixin");
+	if (weixin == '') return;
+
+	kv["_callAjax"]({
+		"cmd": "auth",
+		"device_token": weixin
+	}, function(d) {
+		if (d.success) kv["auth"](kv["_callAjax"], weixin, d);
+	});
+}
