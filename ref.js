@@ -23,7 +23,7 @@ var _stopLoading = function() {
 
 var _genPostAjax = function(url) {
 	return function(data, cb) {
-		if (!("noloading" in dara)) _loading();
+		if (!("noloading" in data)) _loading();
 		cb = cb?cb:function(){};
 		$.ajax({
 			type:"POST",
