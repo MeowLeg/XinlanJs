@@ -265,6 +265,7 @@ var _upload = function(options) {
 			"type": "post",
 			"success": function(d) {
 				options.uploadCallback(d);
+				vform.remove();
 			}
 		});
 	});
