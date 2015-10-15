@@ -239,3 +239,33 @@ var _weixin = function(kv) {
 		if (d.success) kv["auth"](kv["_callAjax"], weixin, d);
 	});
 }
+
+var _upload = function(options) {
+	/*
+	 * options = {
+	 *   fileElement: jqueryObj,
+	 *   fileSelectCallback: function,
+	 *   submitElement: jqueryObj,
+	 *   uploadCallback: function,
+	 *   uploadUrl: urlString,
+	 * }
+	 */
+	var vform = $('<form style="display:none;" enctype="multipart/form-data"> <input class="upload-file" type="file" name="tupian" /> <input class="upload-submit" type="submit"> </form>').insertAfter(options.fileElement);
+	var vfile = vform.find(".upload-file");
+	options.fileElement.click(function() {
+		vfile.click();
+	});
+	vfile.change(function() {
+		options.fileSelectCallback(vfile.val());
+	});
+	var vsubmit = vform.find(".upload-file");
+	options.submitElement.click(function() {
+		vform.ajaxSubmit({
+			"url": options.uploadUrl,
+			"type": "post",
+			"success": function(d) {
+				options.uploadCallback(d);
+			}
+		});
+	});
+}
