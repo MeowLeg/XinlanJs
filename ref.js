@@ -260,11 +260,13 @@ var _upload = function(options) {
 	});
 	var vsubmit = vform.find(".upload-file");
 	options.submitElement.click(function() {
+		_loading();
 		vform.ajaxSubmit({
 			"url": options.uploadUrl,
 			"type": "post",
 			"success": function(d) {
 				options.uploadCallback(d);
+				_stopLoading();
 				vform.remove();
 			}
 		});
