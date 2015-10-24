@@ -144,7 +144,7 @@ var _getPar = function (par){
 	var local_url = document.location.href; 
 	var get = local_url.indexOf(par +"=");
 	if(get == -1){
-		return false;   
+		return "";   
 	}   
 	var get_par = local_url.slice(par.length + get + 1);    
 	var nextPar = get_par.indexOf("&");
