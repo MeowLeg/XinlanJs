@@ -21,18 +21,18 @@ var _stopLoading = function() {
 	*/
 }
 
-var _genPostAjax = function(url) {
+var _genPostAjax = function(url, ifMulti) {
 	return function(data, cb) {
 		if (!("noloading" in data)) _loading();
 		cb = cb?cb:function(){};
-		$.ajax({
+		var params = {
 			type:"POST",
 			async:true,
 			url:url,
 			dataType:"json",
 			jsonp:"callback",
 			data:data,
-			contentType:"multipart/form-data; charset=UTF-8",
+			// contentType:"multipart/form-data; charset=UTF-8",
 			success: function(d) {
 				_tell(d);
 				cb(d);
@@ -43,7 +43,9 @@ var _genPostAjax = function(url) {
 				// _popup("服务器连接失败，请重试！");
 				_stopLoading();
 			}
-		});
+		}
+		if (!!ifMulti) params.contentType = "multipart/form-data; charset=UTF-8";
+		$.ajax(params);
 	}
 };
 
