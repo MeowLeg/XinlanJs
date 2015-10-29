@@ -269,7 +269,6 @@ var _upload = function(options) {
 			"success": function(d) {
 				options.uploadCallback(d);
 				_stopLoading();
-				vform.remove();
 			}
 		});
 	});
