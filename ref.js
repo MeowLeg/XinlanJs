@@ -322,3 +322,11 @@ var _isWeixin = function() {
 		return false;
 	}
 }
+
+var _filter = function(l, f) {
+	var ret = [];
+	l.forEach(function(r) {
+		if (f(r)) ret.push(r);
+	});
+	return ret;
+}
