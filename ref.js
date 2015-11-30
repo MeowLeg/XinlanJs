@@ -177,6 +177,9 @@ var _now = function() {
 			d = dt.getDate(),
 			time = dt.toLocaleTimeString();
 
+	if ((""+m).length == 1) m = "0"+m;
+	if ((""+d).length == 1) d = "0"+d;
+
 	return y+"-"+m+"-"+d+" "+time;
 };
 
